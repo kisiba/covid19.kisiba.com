@@ -1,28 +1,24 @@
 <template>
     <tile :position="position">
         <div class="grid gap-padding h-full markup">
+        
+            <div class="leading-tight min-w-0">
+                <h2 class="truncate capitalize">
+                    {{ region }}
+                </h2>
+            </div>
             <ul class="align-self-center">
                 <li>
-                    <span v-html="emoji('✨')" />
-                    <span class="font-bold variant-tabular">{{ formatNumber(githubStars) }}</span>
+                    <span>Nb Cas</span>
+                    <span class="font-bold variant-tabular">{{ formatNumber(totalCases) }}</span>
                 </li>
                 <li>
-                    <span>Contributors</span>
-                    <span class="font-bold variant-tabular">{{ formatNumber(githubContributors) }}</span>
+                    <span>Nb Décès</span> 
+                    <span class="font-bold variant-tabular">{{ formatNumber(totalDeath) }}</span>
                 </li>
                 <li>
-                    <span>Issues</span> <span class="font-bold variant-tabular">{{ formatNumber(githubIssues) }}</span>
-                </li>
-                <li>
-                    <span>Pull Requests</span>
-                    <span class="font-bold variant-tabular">{{ formatNumber(githubPullRequests) }}</span>
-                </li>
-                <li>
-                    <span>30 days</span>
-                    <span class="font-bold variant-tabular">{{ formatNumber(packagistMonthly) }}</span>
-                </li>
-                <li>
-                    <span>Total</span> <span class="font-bold variant-tabular">{{ formatNumber(packagistTotal) }}</span>
+                    <span>Nb Rétablie</span>
+                    <span class="font-bold variant-tabular">{{ formatNumber(totalRecovery) }}</span>
                 </li>
             </ul>
         </div>
@@ -46,13 +42,9 @@ export default {
 
     data() {
         return {
-            githubStars: 0,
-            githubIssues: 0,
-            githubPullRequests: 0,
-            githubContributors: 0,
-
-            packagistTotal: 0,
-            packagistMonthly: 0,
+            totalCases: 0,
+            totalDeath: 0,
+            totalRecovered: 0,
         };
     },
 
@@ -62,16 +54,10 @@ export default {
 
         getEventHandlers() {
             return {
-                'Statistics.GitHubTotalsFetched': response => {
-                    this.githubStars = response.stars;
-                    this.githubIssues = response.issues;
-                    this.githubPullRequests = response.pullRequests;
-                    this.githubContributors = response.contributors;
-                },
-
-                'Statistics.PackagistTotalsFetched': response => {
-                    this.packagistTotal = response.total;
-                    this.packagistMonthly = response.monthly;
+                'Statistics.RegionTotals': response => {
+                    this.totalCases = response.totalCases;
+                    this.totalDeath = response.totalDeath;
+                    this.totalRecovered = response.totalRecovered;
                 },
             };
         },
